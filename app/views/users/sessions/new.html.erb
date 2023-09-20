@@ -1,0 +1,49 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container-fluid">       
+          <img src="<%= asset_path('arrow-left.png') %>" alt="Arrow" class="d-lg-none d-lg-block" />
+
+        
+        <div class="text-center">
+          <span class="navbar-brand text-white">LOGIN</span>
+        </div>
+        <div class="text-end">
+          <a href="#" class="nav-link text-white">Login</a>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <div class="card mt-5">
+        <div class="card-body">
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form' }) do |f| %>
+            <div class="form-group">
+              <%= f.label :email %>
+              <%= f.email_field :email, class: 'form-control', autofocus: true, autocomplete: "email" %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :password %>
+              <%= f.password_field :password, class: 'form-control', autocomplete: "current-password" %>
+            </div>
+
+            <% if devise_mapping.rememberable? %>
+              <div class="form-group form-check mt-2">
+                <%= f.check_box :remember_me, class: 'form-check-input' %>
+                <%= f.label :remember_me, class: 'form-check-label' %>
+              </div>
+            <% end %>
+
+            <div class="form-group text-center">
+              <%= f.submit "Log in", class: 'btn btn-primary btn-block mt-3' %>
+            </div>
+          <% end %>
+          
+          <%= render "users/shared/links" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
