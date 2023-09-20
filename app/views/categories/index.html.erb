@@ -1,2 +1,65 @@
-<h1>Categories#index</h1>
-<p>Find me in app/views/categories/index.html.erb</p>
+<nav class="navbar navbar-light bg-primary">
+  <div class="container-fluid">
+    <span class="navbar-toggler-icon d-lg-none d-lg-block"></span>
+    <div class="text-center">
+      <span class="navbar-brand text-white">CATEGORIES</span>
+    </div>
+    <% if params[:search_visible] == 'true' %>
+      <%= form_with(url: categories_path, method: 'get') do |form| %>
+        <%= form.text_field :search, placeholder: 'Search by category name' %>
+        <%= form.submit 'Search' %>
+      <% end %>
+    <% else %>
+      <%= link_to root_path(search_visible: 'true') do %>
+        <a href="#" class="nav-link text-white"><i class="bi bi-search"></i></a>
+      <% end %>
+    <% end %>
+  </div>
+</nav>
+
+<div class="container">
+<% if @user %>
+  <div class="mt-5 d-flex justify-content-center">
+    <% if @user.profile_picture.attached? %>
+      <%= image_tag @user.profile_picture.variant(resize: "50x50"), alt: "Profile Picture", class: "img-fluid rounded-circle mx-auto" %>
+    <% else %>
+      <%= image_tag "users_image.png", alt: "Default Profile Picture", width: "100", height: "100", class: "img-fluid rounded-circle m-auto" %>
+    <% end %>
+  </div>
+  <p class='mt-5'>
+    <span class="display-4 text-success">Welcome</span>,
+    <span class="display-6 bold text-primary"><%= @user.fullname %>!!</span>
+  </p>
+<% end %>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Icon</th>
+      <th>Total Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @categories.each do |category| %>
+      <tr>
+        <td>
+          <%= link_to category.name, category_transactions_path(category) %>
+        </td>
+        <td>
+          <%= image_tag category.icon, width: 50, height: 50 %>
+        </td>
+        <td>
+          <%= number_to_currency(category.total_amount, precision: 2) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Add a New Category", new_category_path, class: "btn btn-primary" %>
+<%= form_for(current_user, url: destroy_user_session_path, method: :delete) do |f| %>
+  <%= f.submit "Log Out", class: "btn btn-link text-decoration-none text-danger" %>
+<% end %>
+</div>
