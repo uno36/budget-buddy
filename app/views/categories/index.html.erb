@@ -59,6 +59,7 @@
 </table>
 
 <%= link_to "Add a New Category", new_category_path, class: "btn btn-primary" %>
+<%= link_to "Transactions", transactions_index_path, class: "btn btn-success" %>
 <%= form_for(current_user, url: destroy_user_session_path, method: :delete) do |f| %>
   <%= f.submit "Log Out", class: "btn btn-link text-decoration-none text-danger" %>
 <% end %>

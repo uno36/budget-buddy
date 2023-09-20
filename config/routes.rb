@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'transactions/index'
   get 'categories/index'
   devise_for :users, controllers: {
   registrations: 'users/registrations',
@@ -6,5 +7,6 @@ Rails.application.routes.draw do
 }
   root 'splash#index'
   resources :categories do
+    resources :transactions
   end
 end
