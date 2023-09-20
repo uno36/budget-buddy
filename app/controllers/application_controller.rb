@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(_resource)
     categories_index_path # Redirect to categories#index
   end
 
@@ -10,9 +10,9 @@ class ApplicationController < ActionController::Base
 
   # Override Devise's authenticate_user! method to allow access to the login form
   def authenticate_user!
-    unless user_signed_in?
-      super
-    end
+    return if user_signed_in?
+
+    super
   end
 
   def configure_permitted_parameters

@@ -2,17 +2,17 @@ class CategoriesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-  @categories = Category.all
-  @user = current_user
-  if params[:search].present?
-    # Implement your search logic here
-    # For example, fetch categories matching the search query
-    @categories = Category.where('name LIKE ?', "%#{params[:search]}%")
-  else
-    # Fetch all categories
     @categories = Category.all
+    @user = current_user
+    @categories = if params[:search].present?
+                    # Implement your search logic here
+                    # For example, fetch categories matching the search query
+                    Category.where('name LIKE ?', "%#{params[:search]}%")
+                  else
+                    # Fetch all categories
+                    Category.all
+                  end
   end
-end
 
   def new
     @category = Category.new
@@ -27,4 +27,3 @@ end
     end
   end
 end
-
