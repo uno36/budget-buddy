@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_20_122340) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_21_121704) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,6 +49,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_20_122340) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "category_icons", force: :cascade do |t|
+    t.string "name"
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "entities", force: :cascade do |t|
     t.bigint "author_id"
     t.string "name"
@@ -68,6 +75,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_20_122340) do
   create_table "transactions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "amount"
+    t.bigint "category_id", null: false
+    t.index ["category_id"], name: "index_transactions_on_category_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -91,4 +101,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_20_122340) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "entities", "users", column: "author_id", on_delete: :cascade
+  add_foreign_key "transactions", "categories"
 end

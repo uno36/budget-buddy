@@ -1,5 +1,4 @@
 class TransactionsController < ApplicationController
-  
   def index
     @category = Category.find_by(id: params[:category_id])
 
@@ -8,7 +7,7 @@ class TransactionsController < ApplicationController
       @total_amount = @category.transactions.sum(:amount)
     else
       # Handle the case when the category is not found
-      flash[:alert] = "Category not found"
+      flash[:alert] = 'Category not found'
       redirect_to categories_path # You can redirect to a suitable page
     end
   end
@@ -16,7 +15,7 @@ class TransactionsController < ApplicationController
   def new
     @transaction = Transaction.new
     @category = Category.find(params[:category_id])
-    @transaction = @category.transactions.new    
+    @transaction = @category.transactions.new
   end
 
   def create
