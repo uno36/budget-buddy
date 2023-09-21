@@ -48,10 +48,12 @@
           <%= link_to category.name, category_transactions_path(category) %>
         </td>
         <td>
-          <%= image_tag category.icon, width: 50, height: 50 %>
+          <%= image_tag "category_icons/#{category.icon}", width: 50, height: 50 %>
+
         </td>
         <td>
-          <%= number_to_currency(category.total_amount, precision: 2) %>
+          <% total_amount = category.transactions.sum(:amount) %>
+          <%= number_to_currency(total_amount, precision: 2) %>
         </td>
       </tr>
     <% end %>
@@ -60,6 +62,7 @@
 
 <%= link_to "Add a New Category", new_category_path, class: "btn btn-primary" %>
 <%= link_to "Transactions", transactions_index_path, class: "btn btn-success" %>
+
 <%= form_for(current_user, url: destroy_user_session_path, method: :delete) do |f| %>
   <%= f.submit "Log Out", class: "btn btn-link text-decoration-none text-danger" %>
 <% end %>
