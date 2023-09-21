@@ -1,0 +1,2 @@
+class CategoryIcon < ApplicationRecord
+end
