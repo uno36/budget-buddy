@@ -1,10 +1,16 @@
-<h1>Transactions for <%= @category.name if @category %></h1>
+<h1>Transactions for <%= @category.name  %></h1>
 
 
 <div class="total-amount">
   <strong>Total Amount:</strong>
   <%= number_to_currency(@total_amount, precision: 2) %>
 </div>
+
+<% if @error_message %>
+  <div class="alert alert-danger">
+    <%= @error_message %>
+  </div>
+<% end %>
 
 <table class="table">
   <thead>

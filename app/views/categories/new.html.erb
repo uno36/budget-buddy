@@ -17,14 +17,14 @@
 
       <div class="form-group col">
         <%= f.label :icon, "Category Icon" %>
-        <%= f.select :icon, available_category_icons, { include_blank: 'Select an icon' }, class: "form-control", required: true %>
+        <%= f.select :icon, available_category_icons, { include_blank: 'Select an icon' }, class: "form-control" %>
+        <%= f.text_field :icon, class: "form-control mt-2", placeholder: "Enter URL for Icon" %>
       </div>
-    </div>
-
+    </div>  
 
     <div class="d-flex mt-4 gap-3">
-      <%= f.submit "Save", class: "btn btn-primary " %>
-      <%= link_to "Back", categories_path, class: "btn btn-secondary " %>
+      <%= f.submit "Save with Selected Icon", class: "btn btn-primary" %>
+      <%= link_to "Back", categories_path, class: "btn btn-secondary" %>
     </div>
   <% end %>
 </div>
