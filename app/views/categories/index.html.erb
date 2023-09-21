@@ -4,66 +4,60 @@
     <div class="text-center">
       <span class="navbar-brand text-white">CATEGORIES</span>
     </div>
-    <% if params[:search_visible] == 'true' %>
-      <%= form_with(url: categories_path, method: 'get') do |form| %>
-        <%= form.text_field :search, placeholder: 'Search by category name' %>
-        <%= form.submit 'Search' %>
-      <% end %>
-    <% else %>
-      <%= link_to root_path(search_visible: 'true') do %>
-        <a href="#" class="nav-link text-white"><i class="bi bi-search"></i></a>
-      <% end %>
+    <%= form_for(current_user, url: destroy_user_session_path, method: :delete) do |f| %>
+      <%= f.submit "Log Out", class: "btn btn-link text-decoration-none text-white" %>
     <% end %>
   </div>
 </nav>
 
 <div class="container">
-<% if @user %>
-  <div class="mt-5 d-flex justify-content-center">
-    <% if @user.profile_picture.attached? %>
-      <%= image_tag @user.profile_picture.variant(resize: "50x50"), alt: "Profile Picture", class: "img-fluid rounded-circle mx-auto" %>
-    <% else %>
-      <%= image_tag "users_image.png", alt: "Default Profile Picture", width: "100", height: "100", class: "img-fluid rounded-circle m-auto" %>
-    <% end %>
-  </div>
-  <p class='mt-5'>
-    <span class="display-4 text-success">Welcome</span>,
-    <span class="display-6 bold text-primary"><%= @user.fullname %>!!</span>
-  </p>
-<% end %>
+  <% if @user %>
+    <div class="mt-5 d-flex justify-content-center">
+      <% if @user.profile_picture.attached? %>
+        <%= image_tag @user.profile_picture.variant(resize: "100x100"), alt: "Profile Picture", class: "img-fluid rounded-circle mx-auto" %>
+      <% else %>
+        <%= image_tag "users_image.png", alt: "Default Profile Picture", width: "100", height: "100", class: "img-fluid rounded-circle m-auto" %>
+      <% end %>
+    </div>
+    <p class='mt-5'>
+      <span class="display-4 text-success">Welcome</span>,
+      <span class="display-6 bold text-primary"><%= @user.fullname %>!!</span>
+    </p>
+  <% end %>
 
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Icon</th>
-      <th>Total Amount</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @categories.each do |category| %>
+  <table class="table">
+    <thead>
       <tr>
-        <td>
-          <%= link_to category.name, category_transactions_path(category) %>
-        </td>
-        <td>
-          <%= image_tag "category_icons/#{category.icon}", width: 50, height: 50 %>
-
-        </td>
-        <td>
-          <% total_amount = category.transactions.sum(:amount) %>
-          <%= number_to_currency(total_amount, precision: 2) %>
-        </td>
+        <th>Name</th>
+        <th>Icon</th>
+        <th>Total Amount</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @categories.each do |category| %>
+        <tr>
+          <td>
+            <%= link_to category.name, category_transactions_path(category) %>
+          </td>
+          <td>
+            <% if category.icon.present? %>
+              <% if category.icon.start_with?('http') %>
+                <%= image_tag category.icon, width: 50, height: 50 %>
+              <% else %>
+                <%= image_tag "category_icons/#{category.icon}", width: 50, height: 50 %>
+              <% end %>
+            <% else %>
+              <%= image_tag "category_icons/default-icon.png", width: 50, height: 50 %>
+            <% end %>
+          </td>
+          <td>
+            <% total_amount = category.transactions.sum(:amount) %>
+            <%= number_to_currency(total_amount, precision: 2) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<%= link_to "Add a New Category", new_category_path, class: "btn btn-primary" %>
-<%= link_to "Transactions", transactions_index_path, class: "btn btn-success" %>
-
-<%= form_for(current_user, url: destroy_user_session_path, method: :delete) do |f| %>
-  <%= f.submit "Log Out", class: "btn btn-link text-decoration-none text-danger" %>
-<% end %>
+  <%= link_to "Add a New Category", new_category_path, class: "btn btn-primary" %>
 </div>
